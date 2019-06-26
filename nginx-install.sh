@@ -1,4 +1,5 @@
 #!/bin/bash
+T="$(date +%s)" 
 
 if [[ "$EUID" -ne 0 ]]; then
 	echo -e "Sorry, you need to run this as root"
@@ -405,6 +406,8 @@ case $OPTION in
 
 		# We're done !
 		echo "Installation done."
+		T="$(($(date +%s)-T))" 
+echo "Time in seconds: ${T}"
 	exit
 	;;
 	2) # Uninstall Nginx
@@ -445,6 +448,8 @@ case $OPTION in
 
 		# We're done !
 		echo "Uninstallation done."
+		T="$(($(date +%s)-T))" 
+echo "Time in seconds: ${T}"
 
 		exit
 	;;
@@ -455,6 +460,8 @@ case $OPTION in
 		echo "Update done."
 		sleep 2
 		./nginx-install.sh
+		T="$(($(date +%s)-T))" 
+echo "Time in seconds: ${T}"
 		exit
 	;;
 	*) # Exit
