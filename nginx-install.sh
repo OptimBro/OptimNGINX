@@ -381,7 +381,7 @@ case $OPTION in
             wget -O modsecurity.conf https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/modsecurity.conf-recommended || exit 1
             sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/conf.d/modsecurity.conf || exit 1
             cd /opt/ || exit 1
-            git clone https://github.com/SpiderLabs/owasp-modsecurity-crs.git
+            git clone https://github.com/SpiderLabs/owasp-modsecurity-crs.git || exit 1
             cd owasp-modsecurity-crs/ || exit 1
             cp -R rules/ /etc/nginx/conf.d/ || exit 1
             cp /opt/owasp-modsecurity-crs/crs-setup.conf.example /etc/nginx/conf.d/crs-setup.conf
