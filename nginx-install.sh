@@ -1,10 +1,11 @@
 #!/bin/bash
-start=`date +%s%N`
 
 if [[ "$EUID" -ne 0 ]]; then
 	echo -e "Sorry, you need to run this as root"
 	exit 1
 fi
+
+STARTM=`date -u "+%s"`
 
 # Define Versions
 NGINX_MAINLINE_VER=1.17.0
@@ -462,5 +463,12 @@ case $OPTION in
 
 esac
 
-end=`date +%s%N`
-echo Execution time was `expr $end - $start` nanoseconds.
+STOPM=`date -u "+%s"`
+RUNTIMEM=`expr $STOPM - $STARTM`
+if (($RUNTIMEM>59)); then
+TTIMEM=`printf "%dm%ds\n" $((RUNTIMEM/60%60)) $((RUNTIMEM%60))`
+else
+TTIMEM=`printf "%ds\n" $((RUNTIMEM))`
+fi
+
+echo "Executing "script function" took: $TTIMEM"
