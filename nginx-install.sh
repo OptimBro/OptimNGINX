@@ -173,12 +173,12 @@ case $OPTION in
 			git clone https://github.com/SpiderLabs/ModSecurity
 			cd ModSecurity || exit 1
 			git checkout -b v3/master origin/v3/master
-            sh build.sh
-            git submodule init
-            git submodule update
-            ./configure
-            make
-            make install
+            		sh build.sh
+            		git submodule init
+            		git submodule update
+            		./configure
+            		make
+            		make install
 		fi
 
 		# More Headers
@@ -260,7 +260,7 @@ case $OPTION in
 		if [[ ! -e /etc/nginx/nginx.conf ]]; then
 			mkdir -p /etc/nginx
 			cd /etc/nginx || exit 1
-			wget https://raw.githubusercontent.com/Angristan/nginx-autoinstall/master/conf/nginx.conf
+			wget https://raw.githubusercontent.com/OptimBro/Advanced-Nginx-Install-Script/master/conf/nginx.conf
 		fi
 		cd /usr/local/src/nginx/nginx-${NGINX_VER} || exit 1
 
@@ -277,6 +277,7 @@ case $OPTION in
 		--http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \
 		--user=www-data \
 		--group=www-data \
+		--build=OptimEngine \
 		--with-cc-opt=-Wno-deprecated-declarations"
 
 		NGINX_MODULES="--with-threads \
@@ -287,8 +288,7 @@ case $OPTION in
 		--with-http_auth_request_module \
 		--with-http_slice_module \
 		--with-http_stub_status_module \
-        --with-pcre-jit \
-        --with-debug \
+        	--with-pcre-jit \
 		--with-http_realip_module"
 
 
@@ -347,14 +347,14 @@ case $OPTION in
 		# Using the official systemd script and logrotate conf from nginx.org
 		if [[ ! -e /lib/systemd/system/nginx.service ]]; then
 			cd /lib/systemd/system/ || exit 1
-			wget https://raw.githubusercontent.com/Angristan/nginx-autoinstall/master/conf/nginx.service
+			wget https://raw.githubusercontent.com/OptimBro/Advanced-Nginx-Install-Script/master/conf/nginx.service
 			# Enable nginx start at boot
 			systemctl enable nginx
 		fi
 
 		if [[ ! -e /etc/logrotate.d/nginx ]]; then
 			cd /etc/logrotate.d/ || exit 1
-			wget https://raw.githubusercontent.com/Angristan/nginx-autoinstall/master/conf/nginx-logrotate -O nginx
+			wget https://raw.githubusercontent.com/OptimBro/Advanced-Nginx-Install-Script/master/conf/nginx-logrotate -O nginx
 		fi
 
 		# Nginx's cache directory is not created by default
@@ -383,13 +383,13 @@ case $OPTION in
             cp -R rules/ /etc/nginx/conf.d/ || exit 1
             cp /opt/owasp-modsecurity-crs/crs-setup.conf.example /etc/nginx/conf.d/crs-setup.conf
             touch /etc/nginx/conf.d/main.conf || exit 1
-            sed '$ a Include "/etc/nginx/conf.d/modsecurity.conf"' /etc/nginx/conf.d/main.conf || exit 1
-            sed '$ a Include "/etc/nginx/conf.d/crs-setup.conf"' /etc/nginx/conf.d/main.conf || exit 1
-            sed '$ a Include "/etc/nginx/conf.d/rules/*.conf"' /etc/nginx/conf.d/main.conf
+	    echo "Include "/etc/nginx/conf.d/modsecurity.conf"" | sudo tee -a /etc/nginx/conf.d/main.conf || exit 1
+	    echo "Include "/etc/nginx/conf.d/crs-setup.conf"" | sudo tee -a /etc/nginx/conf.d/main.conf || exit 1
+	    echo "Include "/etc/nginx/conf.d/rules/*.conf"" | sudo tee -a /etc/nginx/conf.d/main.conf || exit 1
 		fi
 
 		# Restart Nginx
-		systemctl restart nginx
+		systemctl restart nginx  || exit 1
 
 		# Block Nginx from being installed via APT
 		if [[ $(lsb_release -si) == "Debian" ]] || [[ $(lsb_release -si) == "Ubuntu" ]]
