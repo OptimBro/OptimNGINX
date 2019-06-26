@@ -169,20 +169,6 @@ case $OPTION in
 			git submodule update --init
 		fi
 
-		#Modsec
-		if [[ "$MODSEC" = 'y' ]]; then
-			cd /usr/local/src/nginx/modules || exit 1
-			git clone https://github.com/SpiderLabs/ModSecurity
-			cd ModSecurity || exit 1
-			git checkout -b v3/master origin/v3/master
-            		sh build.sh
-            		git submodule init
-            		git submodule update
-            		./configure
-            		make
-            		make install
-		fi
-
 		# More Headers
 		if [[ "$HEADERMOD" = 'y' ]]; then
 			cd /usr/local/src/nginx/modules || exit 1
@@ -251,6 +237,20 @@ case $OPTION in
 
 			./config
 		fi
+		
+		#Modsec
+		if [[ "$MODSEC" = 'y' ]]; then
+			cd /usr/local/src/nginx/modules || exit 1
+			git clone https://github.com/SpiderLabs/ModSecurity
+			cd ModSecurity || exit 1
+			git checkout -b v3/master origin/v3/master
+            		sh build.sh
+            		git submodule init
+            		git submodule update
+            		./configure
+            		make
+            		make install
+		fi
 
 		# Download and extract of Nginx source code
 		cd /usr/local/src/nginx/ || exit 1
@@ -291,6 +291,7 @@ case $OPTION in
 		--with-http_slice_module \
 		--with-http_stub_status_module \
         	--with-pcre-jit \
+		 --with-debug \
 		--with-http_realip_module"
 
 
