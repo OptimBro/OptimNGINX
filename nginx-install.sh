@@ -291,7 +291,7 @@ case $OPTION in
 		--with-http_slice_module \
 		--with-http_stub_status_module \
         	--with-pcre-jit \
-		 --with-debug \
+		--with-debug \
 		--with-http_realip_module"
 
 
