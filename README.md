@@ -1,7 +1,7 @@
 # Advanced Nginx Install Script
 A modified nginx install script with extra module support. Inspired from: https://github.com/angristan/nginx-autoinstall
 
-#Optional modules/features
+# Optional modules/features
 - ModSecurity v3
 - LibreSSL from source (CHACHA20, ALPN for HTTP/2, X25519, P-521)
 - OpenSSL from source (TLS 1.3, CHACHA20, ALPN for HTTP/2, X25519, P-521)
