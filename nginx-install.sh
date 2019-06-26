@@ -1,4 +1,5 @@
 #!/bin/bash
+start=`date +%s%N`
 
 if [[ "$EUID" -ne 0 ]]; then
 	echo -e "Sorry, you need to run this as root"
@@ -460,3 +461,6 @@ case $OPTION in
 	;;
 
 esac
+
+end=`date +%s%N`
+echo Execution time was `expr $end - $start` nanoseconds.
