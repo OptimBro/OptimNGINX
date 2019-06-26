@@ -5,7 +5,7 @@ if [[ "$EUID" -ne 0 ]]; then
 	exit 1
 fi
 
-# Define versions
+# Define Versions
 NGINX_MAINLINE_VER=1.17.0
 NGINX_STABLE_VER=1.16.0
 LIBRESSL_VER=2.9.0
@@ -38,7 +38,7 @@ fi
 
 if [[ "$HEADLESS" != "y" ]]; then
 	echo ""
-	echo "Welcome to the nginx-autoinstall script."
+	echo "Welcome to the nginx-install script."
 	echo ""
 	echo "What do you want to do?"
 	echo "   1) Install or update Nginx"
@@ -447,12 +447,12 @@ case $OPTION in
 		exit
 	;;
 	3) # Update the script
-		wget https://raw.githubusercontent.com/Angristan/nginx-autoinstall/master/nginx-autoinstall.sh -O nginx-autoinstall.sh
-		chmod +x nginx-autoinstall.sh
+		wget https://raw.githubusercontent.com/OptimBro/Advanced-Nginx-Install-Script/master/nginx-install.sh -O nginx-install.sh
+		chmod +x nginx-install.sh
 		echo ""
 		echo "Update done."
 		sleep 2
-		./nginx-autoinstall.sh
+		./nginx-install.sh
 		exit
 	;;
 	*) # Exit
