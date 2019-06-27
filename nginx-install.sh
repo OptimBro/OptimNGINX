@@ -41,7 +41,30 @@ fi
 
 if [[ "$HEADLESS" != "y" ]]; then
 	echo ""
-	echo "Welcome to the nginx-install script."
+	echo '
+ 
+    _   __      _               ____           __        ____      __  _                  
+   / | / /___ _(_)___  _  __   /  _/___  _____/ /_____ _/ / /___ _/ /_(_)___  ____        
+  /  |/ / __ `/ / __ \| |/_/   / // __ \/ ___/ __/ __ `/ / / __ `/ __/ / __ \/ __ \       
+ / /|  / /_/ / / / / />  <   _/ // / / (__  ) /_/ /_/ / / / /_/ / /_/ / /_/ / / / /       
+/_/ |_/\__, /_/_/ /_/_/|_|  /___/_/ /_/____/\__/\__,_/_/_/\__,_/\__/_/\____/_/ /_/        
+      /____/      ____           ____        __  _           ______            _          
+                 / __ )__  __   / __ \____  / /_(_)___ ___  / ____/___  ____ _(_)___  ___ 
+ ____________   / __  / / / /  / / / / __ \/ __/ / __ `__ \/ __/ / __ \/ __ `/ / __ \/ _ \
+/_____/_____/  / /_/ / /_/ /  / /_/ / /_/ / /_/ / / / / / / /___/ / / / /_/ / / / / /  __/
+              /_____/\__, /   \____/ .___/\__/_/_/ /_/ /_/_____/_/ /_/\__, /_/_/ /_/\___/ 
+                    /____/        /_/                                /____/               
+       
+       '
+        echo ""
+	echo ""
+	echo "Welcome to the Nginx Install script."
+	echo "It is the most complete nginx installation script which supports most widely used nginx modules."
+	echo "Choose your desired option from the menu"
+	echo "Credits: Forked from https://github.com/angristan/nginx-autoinstall, thanks to the developer."
+	echo "Credits: OptimBro (It's me), for extending and adding more features."
+	echo "Credits: All present and future supporters like you"
+	echo "Thank You"
 	echo ""
 	echo "What do you want to do?"
 	echo "   1) Install or update Nginx"
@@ -476,7 +499,7 @@ case $OPTION in
 		
 		T2=$(date +%s)
 diffsec="$(expr $T2 - $T1)"
-echo | awk -v D=$diffsec '{printf "Elapsed time: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
+echo | awk -v D=$diffsec '{printf "Time taken to compile and install Nginx is: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
 		exit
 		;;
 		
@@ -521,7 +544,7 @@ echo | awk -v D=$diffsec '{printf "Elapsed time: %02d:%02d:%02d\n",D/(60*60),D%(
 		
 		T2=$(date +%s)
 diffsec="$(expr $T2 - $T1)"
-echo | awk -v D=$diffsec '{printf "Elapsed time: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
+echo | awk -v D=$diffsec '{printf "Time taken to uninstall nginx is: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
 		exit
 	;;
 	3) # Update the script
@@ -534,7 +557,7 @@ echo | awk -v D=$diffsec '{printf "Elapsed time: %02d:%02d:%02d\n",D/(60*60),D%(
 
 		T2=$(date +%s)
 diffsec="$(expr $T2 - $T1)"
-echo | awk -v D=$diffsec '{printf "Elapsed time: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
+echo | awk -v D=$diffsec '{printf "Time taken to update the script is: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
 		exit
 	;;
 	*) # Exit
