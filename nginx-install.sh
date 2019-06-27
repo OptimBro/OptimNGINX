@@ -189,9 +189,8 @@ case $OPTION in
 		echo "Installing Dependencies..."
 		apt-get install -y build-essential ca-certificates wget curl libpcre3 libpcre3-dev autoconf unzip automake libtool tar git libssl-dev zlib1g-dev uuid-dev lsb-release libxml2-dev libxslt1-dev
         	apt install -y apt-utils autoconf automake build-essential git libcurl4-openssl-dev libgeoip-dev liblmdb-dev libpcre++-dev libtool libxml2-dev libyajl-dev pkgconf wget zlib1g-dev git
-		sleep 1
+		sleep 3
 		# PageSpeed
-		echo "Compiling and Installing PageSpeed"
 		if [[ "$PAGESPEED" = 'y' ]]; then
 			cd /usr/local/src/nginx/modules || exit 1
 			wget https://github.com/pagespeed/ngx_pagespeed/archive/v${NPS_VER}-stable.zip
@@ -201,8 +200,6 @@ case $OPTION in
 			[ -e scripts/format_binary_url.sh ] && psol_url=$(scripts/format_binary_url.sh PSOL_BINARY_URL)
 			wget "${psol_url}"
 			tar -xzvf "$(basename "${psol_url}")"
-		echo "PageSpeed Compiled and Installed"
-		sleep 2
 		fi
 
 		#Brotli
@@ -466,25 +463,19 @@ case $OPTION in
 
         	if [[ ! -e /etc/nginx/conf.d/modsecurity.conf ]]; then
 			echo "ModSecurity Configuration Starts"
-			sleep 1
             		cd /etc/nginx/conf.d/ || exit 1
             		wget -O modsecurity.conf https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/modsecurity.conf-recommended || exit 1
             		sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/conf.d/modsecurity.conf || exit 1
 			echo "Cleaning Directory"
-			sleep 1
 			rm -rf /opt/owasp-modsecurity-crs || exit 1 
             		cd /opt/ || exit 1
 			echo "Directory Cleaned"
             		git clone https://github.com/SpiderLabs/owasp-modsecurity-crs.git || exit 1
-			
             		cd owasp-modsecurity-crs/ || exit 1
             		cp -R rules/ /etc/nginx/conf.d/ || exit 1
 			echo "Copying configuration file to nginx directory"
-			sleep 2
             		cp /opt/owasp-modsecurity-crs/crs-setup.conf.example /etc/nginx/conf.d/crs-setup.conf
-			
             		touch /etc/nginx/conf.d/main.conf || exit 1
-			
 	    		echo "Include "/etc/nginx/conf.d/modsecurity.conf"" | sudo tee -a /etc/nginx/conf.d/main.conf || exit 1
 	    		echo "Include "/etc/nginx/conf.d/crs-setup.conf"" | sudo tee -a /etc/nginx/conf.d/main.conf || exit 1
 	    		echo "Include "/etc/nginx/conf.d/rules/*.conf"" | sudo tee -a /etc/nginx/conf.d/main.conf || exit 1
@@ -492,6 +483,7 @@ case $OPTION in
 		fi
 
 		# Restart Nginx
+		nginx -t
 		systemctl restart nginx  || exit 1
 
 		# Block Nginx from being installed via APT
