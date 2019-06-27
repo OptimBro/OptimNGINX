@@ -16,6 +16,7 @@ NPS_VER=1.13.35.2
 HEADERMOD_VER=0.33
 LIBMAXMINDDB_VER=1.3.2
 GEOIP2_VER=3.2
+HTTP_REDIS_VER=0.3.9
 
 # Define installation paramaters for headless install (fallback if unspecifed)
 if [[ "$HEADLESS" == "y" ]]; then
@@ -106,9 +107,26 @@ case $OPTION in
 			while [[ $WEBDAV != "y" && $WEBDAV != "n" ]]; do
 				read -p "       nginx WebDAV [y/n]: " -e WEBDAV
 			done
-            while [[ $MODSEC != "y" && $MODSEC != "n" ]]; do
+            		while [[ $MODSEC != "y" && $MODSEC != "n" ]]; do
 				read -p "       nginx ModSec [y/n]: " -e MODSEC
 			done
+			
+			while [[ $SRCACHE != "y" && $SRCACHE != "n" ]]; do
+				read -p "       nginx SRCache [y/n]: " -e SRCACHE
+			done
+			while [[ $REDIS2 != "y" && $REDIS2 != "n" ]]; do
+				read -p "       nginx Redis2 [y/n]: " -e REDIS2
+			done
+			
+			while [[ $SET-MISC != "y" && $SET-MISC != "n" ]]; do
+				read -p "       nginx Set-Misc [y/n]: " -e SET-MISC
+			done
+			while [[ $HTTP_REDIS != "y" && $HTTP_REDIS != "n" ]]; do
+				read -p "       nginx HTTP_Redis [y/n]: " -e HTTP_REDIS
+			done
+			
+			
+			
 			echo ""
 			echo "Choose your OpenSSL implementation :"
 			echo "   1) System's OpenSSL ($(openssl version | cut -c9-14))"
@@ -146,7 +164,7 @@ case $OPTION in
 		# Dependencies
 		apt-get update
 		apt-get install -y build-essential ca-certificates wget curl libpcre3 libpcre3-dev autoconf unzip automake libtool tar git libssl-dev zlib1g-dev uuid-dev lsb-release libxml2-dev libxslt1-dev
-        apt install -y apt-utils autoconf automake build-essential git libcurl4-openssl-dev libgeoip-dev liblmdb-dev libpcre++-dev libtool libxml2-dev libyajl-dev pkgconf wget zlib1g-dev git
+        	apt install -y apt-utils autoconf automake build-essential git libcurl4-openssl-dev libgeoip-dev liblmdb-dev libpcre++-dev libtool libxml2-dev libyajl-dev pkgconf wget zlib1g-dev git
 
 		# PageSpeed
 		if [[ "$PAGESPEED" = 'y' ]]; then
@@ -251,6 +269,34 @@ case $OPTION in
             		make
             		make install
 		fi
+		
+		# HTTP_REDIS
+		if [[ "$HTTP_REDIS" = 'y' ]]; then
+			cd /usr/local/src/nginx/modules || exit 1
+			wget https://people.freebsd.org/~osa/ngx_http_redis-${HTTP_REDIS_VER}.tar.gz
+			tar xaf ngx_http_redis-${HTTP_REDIS_VER}.tar.gz
+			cd ngx_http_redis-${HTTP_REDIS_VER}
+
+			./config
+		fi
+		
+		# SET-MISC
+		if [[ "$SET-MISC" = 'y' ]]; then
+			cd /usr/local/src/nginx/modules || exit 1
+			git clone https://github.com/openresty/set-misc-nginx-module
+		fi
+		
+		# REDIS2
+		if [[ "$REDIS2" = 'y' ]]; then
+			cd /usr/local/src/nginx/modules || exit 1
+			git clone https://github.com/openresty/redis2-nginx-module
+		fi
+		
+		# SRCACHE
+		if [[ "$SRCACHE" = 'y' ]]; then
+			cd /usr/local/src/nginx/modules || exit 1
+			git clone https://github.com/openresty/srcache-nginx-module
+		fi
 
 		# Download and extract of Nginx source code
 		cd /usr/local/src/nginx/ || exit 1
@@ -337,7 +383,23 @@ case $OPTION in
 		if [[ "$MODSEC" = 'y' ]]; then
 			git clone --quiet https://github.com/SpiderLabs/ModSecurity-nginx.git /usr/local/src/nginx/modules/nginx-modsec-connect
 			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo --add-module=/usr/local/src/nginx/modules/nginx-modsec-connect)
-		fi        
+		fi
+		
+		if [[ "$HTTP_REDIS" = 'y' ]]; then
+			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo "--with-openssl=/usr/local/src/nginx/modules/ngx_http_redis-${HTTP_REDIS_VER}")
+		fi
+		
+		if [[ "$SET-MISC" = 'y' ]]; then
+			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo "--add-module=/usr/local/src/nginx/modules/set-misc-nginx-module")
+		fi
+		
+		if [[ "$REDIS2" = 'y' ]]; then
+			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo "--add-module=/usr/local/src/nginx/modules/redis2-nginx-module")
+		fi
+		
+		if [[ "$SRCACHE" = 'y' ]]; then
+			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo "--add-module=/usr/local/src/nginx/modules/srcache-nginx-module")
+		fi
 
 		./configure $NGINX_OPTIONS $NGINX_MODULES
 		make -j "$(nproc)"
