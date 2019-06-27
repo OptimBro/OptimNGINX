@@ -604,12 +604,12 @@ case $OPTION in
 		exit
 	;;
 	3) # # Update the script
-		wget https://raw.githubusercontent.com/OptimBro/Advanced-Nginx-Install-Script/master/nginx-install.sh -O nginx-install.sh
-		chmod +x nginx-install.sh
+		wget https://raw.githubusercontent.com/OptimBro/Advanced-Nginx-Install-Script/master/ngx.sh -O ngx.sh
+		chmod +x ngx.sh
 		echo ""
 		echo "Updating script..."
 		sleep 3
-		./nginx-install.sh
+		./ngx.sh
 		echo "Update complete"
 		T2=$(date +%s)
 		diffsec="$(expr $T2 - $T1)"
