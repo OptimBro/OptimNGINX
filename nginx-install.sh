@@ -1,5 +1,5 @@
 #!/bin/bash
-T="$(date +%s)" 
+T1=$(date +%s)
 
 if [[ "$EUID" -ne 0 ]]; then
 	echo -e "Sorry, you need to run this as root"
@@ -438,19 +438,24 @@ case $OPTION in
 			mkdir -p /etc/nginx/conf.d
 		fi
 
-        if [[ ! -e /etc/nginx/conf.d/modsecurity.conf ]]; then
-            cd /etc/nginx/conf.d/ || exit 1
-            wget -O modsecurity.conf https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/modsecurity.conf-recommended || exit 1
-            sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/conf.d/modsecurity.conf || exit 1
-            cd /opt/ || exit 1
-            git clone https://github.com/SpiderLabs/owasp-modsecurity-crs.git || exit 1
-            cd owasp-modsecurity-crs/ || exit 1
-            cp -R rules/ /etc/nginx/conf.d/ || exit 1
-            cp /opt/owasp-modsecurity-crs/crs-setup.conf.example /etc/nginx/conf.d/crs-setup.conf
-            touch /etc/nginx/conf.d/main.conf || exit 1
-	    echo "Include "/etc/nginx/conf.d/modsecurity.conf"" | sudo tee -a /etc/nginx/conf.d/main.conf || exit 1
-	    echo "Include "/etc/nginx/conf.d/crs-setup.conf"" | sudo tee -a /etc/nginx/conf.d/main.conf || exit 1
-	    echo "Include "/etc/nginx/conf.d/rules/*.conf"" | sudo tee -a /etc/nginx/conf.d/main.conf || exit 1
+        	if [[ ! -e /etc/nginx/conf.d/modsecurity.conf ]]; then
+            		cd /etc/nginx/conf.d/ || exit 1
+            		wget -O modsecurity.conf https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/modsecurity.conf-recommended || exit 1
+            		sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/conf.d/modsecurity.conf || exit 1
+			
+            		cd /opt/ || exit 1
+			
+            		git clone https://github.com/SpiderLabs/owasp-modsecurity-crs.git || exit 1
+			
+            		cd owasp-modsecurity-crs/ || exit 1
+            		cp -R rules/ /etc/nginx/conf.d/ || exit 1
+            		cp /opt/owasp-modsecurity-crs/crs-setup.conf.example /etc/nginx/conf.d/crs-setup.conf
+			
+            		touch /etc/nginx/conf.d/main.conf || exit 1
+			
+	    		echo "Include "/etc/nginx/conf.d/modsecurity.conf"" | sudo tee -a /etc/nginx/conf.d/main.conf || exit 1
+	    		echo "Include "/etc/nginx/conf.d/crs-setup.conf"" | sudo tee -a /etc/nginx/conf.d/main.conf || exit 1
+	    		echo "Include "/etc/nginx/conf.d/rules/*.conf"" | sudo tee -a /etc/nginx/conf.d/main.conf || exit 1
 		fi
 
 		# Restart Nginx
@@ -468,11 +473,15 @@ case $OPTION in
 
 		# We're done !
 		echo "Installation done."
-		T="$(($(date +%s)-T))" 
-echo "Time in seconds: ${T}"
-	exit
-	;;
-	2) # Uninstall Nginx
+		
+		T2=$(date +%s)
+		diffsec="$(expr $T2 - $T1)"
+		echo | awk -v D=$diffsec '{printf "Script took %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60 to compile on your server.}'
+		
+		exit
+		;;
+		
+		2) # Uninstall Nginx
 		if [[ "$HEADLESS" != "y" ]]; then
 			while [[ $RM_CONF !=  "y" && $RM_CONF != "n" ]]; do
 				read -p "       Remove configuration files ? [y/n]: " -e RM_CONF
@@ -510,9 +519,11 @@ echo "Time in seconds: ${T}"
 
 		# We're done !
 		echo "Uninstallation done."
-		T="$(($(date +%s)-T))" 
-echo "Time in seconds: ${T}"
-
+		
+		T2=$(date +%s)
+		diffsec="$(expr $T2 - $T1)"
+		echo | awk -v D=$diffsec '{printf "Script took %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60 to compile on your server.}'
+		
 		exit
 	;;
 	3) # Update the script
@@ -522,8 +533,11 @@ echo "Time in seconds: ${T}"
 		echo "Update done."
 		sleep 2
 		./nginx-install.sh
-		T="$(($(date +%s)-T))" 
-echo "Time in seconds: ${T}"
+
+		T2=$(date +%s)
+		diffsec="$(expr $T2 - $T1)"
+		echo | awk -v D=$diffsec '{printf "Script took %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60 to compile on your server.}'
+		
 		exit
 	;;
 	*) # Exit
