@@ -1,5 +1,5 @@
 # NGINX Install Script (NISE)
-A modified nginx install script with extra module support. Inspired from: https://github.com/angristan/nginx-autoinstall
+NGINX Install Script (NISE) - A complete NGINX installation script with extra module support and configuration.
 
 # Optional modules/features
 - ModSecurity v3
@@ -22,3 +22,4 @@ wget https://raw.githubusercontent.com/OptimBro/Advanced-Nginx-Install-Script/ma
 chmod +x ngx.sh
 ./ngx.sh
 ```
+Credits: Forked from https://github.com/angristan/nginx-autoinstall (Thanks for the script)
