@@ -297,14 +297,12 @@ case $OPTION in
 			wget https://people.freebsd.org/~osa/ngx_http_redis-${HTTP_REDIS_VER}.tar.gz
 			tar xaf ngx_http_redis-${HTTP_REDIS_VER}.tar.gz
 			cd ngx_http_redis-${HTTP_REDIS_VER}
-
-			./config
 		fi
 		
 		# SET_MISC
 		if [[ "$SET_MISC" = 'y' ]]; then
 			cd /usr/local/src/nginx/modules || exit 1
-			git clone https://github.com/openresty/SET_MISC-nginx-module
+			git clone https://github.com/openresty/set-misc-nginx-module
 		fi
 		
 		# REDIS2
@@ -411,7 +409,7 @@ case $OPTION in
 		fi
 		
 		if [[ "$SET_MISC" = 'y' ]]; then
-			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo "--add-module=/usr/local/src/nginx/modules/SET_MISC-nginx-module")
+			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo "--add-module=/usr/local/src/nginx/modules/set-misc-nginx-module")
 		fi
 		
 		if [[ "$REDIS2" = 'y' ]]; then
@@ -496,8 +494,8 @@ case $OPTION in
 		echo "Installation done."
 		
 		T2=$(date +%s)
-		diffsec="$(expr $T2 - $T1)"
-		echo | awk -v D=$diffsec '{printf "Time taken to compile and install Nginx is: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
+diffsec="$(expr $T2 - $T1)"
+echo | awk -v D=$diffsec '{printf "Time taken to compile and install Nginx is: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
 		exit
 		;;
 		
@@ -541,8 +539,8 @@ case $OPTION in
 		echo "Uninstallation done."
 		
 		T2=$(date +%s)
-		diffsec="$(expr $T2 - $T1)"
-		echo | awk -v D=$diffsec '{printf "Time taken to uninstall nginx is: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
+diffsec="$(expr $T2 - $T1)"
+echo | awk -v D=$diffsec '{printf "Time taken to uninstall nginx is: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
 		exit
 	;;
 	3) # Update the script
@@ -554,8 +552,8 @@ case $OPTION in
 		./nginx-install.sh
 
 		T2=$(date +%s)
-		diffsec="$(expr $T2 - $T1)"
-		echo | awk -v D=$diffsec '{printf "Time taken to update the script is: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
+diffsec="$(expr $T2 - $T1)"
+echo | awk -v D=$diffsec '{printf "Time taken to update the script is: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
 		exit
 	;;
 	*) # Exit
