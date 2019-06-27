@@ -1,5 +1,5 @@
 #!/bin/bash
-
+T1=$(date +%s)
 if [[ "$EUID" -ne 0 ]]; then
 	echo -e "Sorry, you need to run this as root"
 	exit 1
@@ -39,7 +39,28 @@ fi
 
 if [[ "$HEADLESS" != "y" ]]; then
 	echo ""
-	echo "Welcome to the nginx-autoinstall script."
+echo '
+    _   __      _               ____           __        ____         
+   / | / /___ _(_)___  _  __   /  _/___  _____/ /_____ _/ / /__  _____
+  /  |/ / __ `/ / __ \| |/_/   / // __ \/ ___/ __/ __ `/ / / _ \/ ___/
+ / /|  / /_/ / / / / />  <   _/ // / / (__  ) /_/ /_/ / / /  __/ /    
+/_/ |_/\__, /_/_/ /_/_/|_|  /___/_/ /_/____/\__/\__,_/_/_/\___/_/     
+    __//___/       ____        __  _           ____                   
+   / __ )__  __   / __ \____  / /_(_)___ ___  / __ )_________         
+  / __  / / / /  / / / / __ \/ __/ / __ `__ \/ __  / ___/ __ \        
+ / /_/ / /_/ /  / /_/ / /_/ / /_/ / / / / / / /_/ / /  / /_/ /        
+/_____/\__, /   \____/ .___/\__/_/_/ /_/ /_/_____/_/   \____/         
+      /____/        /_/                                               
+       '
+        echo ""
+	echo ""
+	echo "Nginx Installer v11.0"
+	echo "It is the most complete nginx installation script which supports most widely used nginx modules."
+	echo "Choose your desired option from the menu"
+	echo "Credits: Forked from https://github.com/angristan/nginx-autoinstall, thanks to the developer."
+	echo "Credits: OptimBro (It's me), for extending and adding more features."
+	echo "Credits: All present and future supporters like you"
+	echo "Thank You"
 	echo ""
 	echo "What do you want to do?"
 	echo "   1) Install or update Nginx"
@@ -153,18 +174,25 @@ case $OPTION in
 			echo ""
 		fi
 
-		# Cleanup
+				# Cleanup
 		# The directory should be deleted at the end of the script, but in case it fails
 		rm -r /usr/local/src/nginx/ >> /dev/null 2>&1
 		mkdir -p /usr/local/src/nginx/modules
 
 		# Dependencies
+		echo "Updating system"
 		apt-get update
+		echo "System updated"
+		sleep 1
+		echo "Installing Dependencies..."
 		apt-get install -y build-essential ca-certificates wget curl libpcre3 libpcre3-dev autoconf unzip automake libtool tar git libssl-dev zlib1g-dev uuid-dev lsb-release libxml2-dev libxslt1-dev
-		apt install -y apt-utils autoconf automake build-essential git libcurl4-openssl-dev libgeoip-dev liblmdb-dev libpcre++-dev libtool libxml2-dev libyajl-dev pkgconf wget zlib1g-dev git
-
+        	apt install -y apt-utils autoconf automake build-essential git libcurl4-openssl-dev libgeoip-dev liblmdb-dev libpcre++-dev libtool libxml2-dev libyajl-dev pkgconf wget zlib1g-dev git
+		echo "Dependencies Installed"
+		sleep 3
 		# PageSpeed
 		if [[ "$PAGESPEED" = 'y' ]]; then
+		echo "Configuring PageSpeed"
+		sleep 3
 			cd /usr/local/src/nginx/modules || exit 1
 			wget https://github.com/pagespeed/ngx_pagespeed/archive/v${NPS_VER}-stable.zip
 			unzip v${NPS_VER}-stable.zip
@@ -177,6 +205,8 @@ case $OPTION in
 
 		#Brotli
 		if [[ "$BROTLI" = 'y' ]]; then
+		echo "Configuring Brotli Module"
+		sleep 3
 			cd /usr/local/src/nginx/modules || exit 1
 			git clone https://github.com/eustas/ngx_brotli
 			cd ngx_brotli || exit 1
@@ -186,6 +216,8 @@ case $OPTION in
 
 		# More Headers
 		if [[ "$HEADERMOD" = 'y' ]]; then
+		echo "Configuring Headers More Module"
+		sleep 3
 			cd /usr/local/src/nginx/modules || exit 1
 			wget https://github.com/openresty/headers-more-nginx-module/archive/v${HEADERMOD_VER}.tar.gz
 			tar xaf v${HEADERMOD_VER}.tar.gz
@@ -193,6 +225,8 @@ case $OPTION in
 
 		# GeoIP
 		if [[ "$GEOIP" = 'y' ]]; then
+		echo "Configuring GeoIP Module"
+		sleep 3
 			cd /usr/local/src/nginx/modules || exit 1
 			# install libmaxminddb
 			wget https://github.com/maxmind/libmaxminddb/releases/download/${LIBMAXMINDDB_VER}/libmaxminddb-${LIBMAXMINDDB_VER}.tar.gz
@@ -223,12 +257,16 @@ case $OPTION in
 
 		# Cache Purge
 		if [[ "$CACHEPURGE" = 'y' ]]; then
+		echo "Configuring Cache Purge Module"
+		sleep 3
 			cd /usr/local/src/nginx/modules || exit 1
 			git clone https://github.com/FRiCKLE/ngx_cache_purge
 		fi
 
 		# LibreSSL
 		if [[ "$LIBRESSL" = 'y' ]]; then
+		echo "Configuring LibreSSL"
+		sleep 3
 			cd /usr/local/src/nginx/modules || exit 1
 			mkdir libressl-${LIBRESSL_VER}
 			cd libressl-${LIBRESSL_VER} || exit 1
@@ -245,6 +283,8 @@ case $OPTION in
 
 		# OpenSSL
 		if [[ "$OPENSSL" = 'y' ]]; then
+		echo "Configuring OpenSSL"
+		sleep 3
 			cd /usr/local/src/nginx/modules || exit 1
 			wget https://www.openssl.org/source/openssl-${OPENSSL_VER}.tar.gz
 			tar xaf openssl-${OPENSSL_VER}.tar.gz
@@ -255,6 +295,8 @@ case $OPTION in
 		
 		#Modsec
 		if [[ "$MODSEC" = 'y' ]]; then
+		echo "Configuring ModSecurity"
+		sleep 3
 			cd /usr/local/src/nginx/modules || exit 1
 			git clone https://github.com/SpiderLabs/ModSecurity
 			cd ModSecurity || exit 1
@@ -269,24 +311,32 @@ case $OPTION in
 		
 		# SRCACHE
 		if [[ "$SRCACHE" = 'y' ]]; then
+		echo "Configuring SRCache Module "
+		sleep 3
 			cd /usr/local/src/nginx/modules || exit 1
 			git clone https://github.com/openresty/srcache-nginx-module
 		fi
 		
 		# REDIS2
 		if [[ "$REDIS2" = 'y' ]]; then
+		echo "Configuring Redis2 Module"
+		sleep 3
 			cd /usr/local/src/nginx/modules || exit 1
 			git clone https://github.com/openresty/redis2-nginx-module
 		fi
 		
 		# SET_MISC
 		if [[ "$SET_MISC" = 'y' ]]; then
+		echo "Configuring Set_Misc Module"
+		sleep 3
 			cd /usr/local/src/nginx/modules || exit 1
 			git clone https://github.com/openresty/set-misc-nginx-module
 		fi
 		
 		# HTTP_REDIS
 		if [[ "$HTTP_REDIS" = 'y' ]]; then
+		echo "Configuring HTTP Redis Module"
+		sleep 3
 			cd /usr/local/src/nginx/modules || exit 1
 			wget https://people.freebsd.org/~osa/ngx_http_redis-${HTTP_REDIS_VER}.tar.gz
 			tar xaf ngx_http_redis-${HTTP_REDIS_VER}.tar.gz
@@ -294,6 +344,8 @@ case $OPTION in
 		fi
 		
 		# Download and extract of Nginx source code
+		echo "Downloading NGINX..."
+		sleep 3
 		cd /usr/local/src/nginx/ || exit 1
 		wget -qO- http://nginx.org/download/nginx-${NGINX_VER}.tar.gz | tar zxf -
 		cd nginx-${NGINX_VER}
@@ -305,6 +357,8 @@ case $OPTION in
 			cd /etc/nginx || exit 1
 			wget https://raw.githubusercontent.com/OptimBro/Advanced-Nginx-Install-Script/master/conf/nginx.conf
 		fi
+		echo "Configuring NGINX"
+		sleep 3
 		cd /usr/local/src/nginx/nginx-${NGINX_VER} || exit 1
 
 		NGINX_OPTIONS="
@@ -399,7 +453,10 @@ case $OPTION in
 		if [[ "$HTTP_REDIS" = 'y' ]]; then
 			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo "--add-module=/usr/local/src/nginx/modules/ngx_http_redis-${HTTP_REDIS_VER}")
 		fi
-
+		
+		echo "Compiling NGINX"
+		sleep 3
+		
 		./configure $NGINX_OPTIONS $NGINX_MODULES
 		make -j "$(nproc)"
 		make install
@@ -410,7 +467,9 @@ case $OPTION in
 		strip -s /usr/sbin/nginx
 		
 		sleep 5
-
+		
+		echo "Installing NGINX"
+		sleep 3
 		# Nginx installation from source does not add an init script for systemd and logrotate
 		# Using the official systemd script and logrotate conf from nginx.org
 		if [[ ! -e /lib/systemd/system/nginx.service ]]; then
@@ -440,8 +499,32 @@ case $OPTION in
 		if [[ ! -d /etc/nginx/conf.d ]]; then
 			mkdir -p /etc/nginx/conf.d
 		fi
+		echo "NGINX Installed"
+		sleep 3
+        	if [[ ! -e /etc/nginx/conf.d/modsecurity.conf ]]; then
+			echo "ModSecurity Configuration Starts"
+            		cd /etc/nginx/conf.d/ || exit 1
+            		wget -O modsecurity.conf https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/modsecurity.conf-recommended || exit 1
+            		sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/conf.d/modsecurity.conf || exit 1
+			echo "Cleaning Directory"
+			rm -rf /opt/owasp-modsecurity-crs || exit 1 
+            		cd /opt/ || exit 1
+			echo "Directory Cleaned"
+            		git clone https://github.com/SpiderLabs/owasp-modsecurity-crs.git || exit 1
+            		cd owasp-modsecurity-crs/ || exit 1
+            		cp -R rules/ /etc/nginx/conf.d/ || exit 1
+			echo "Copying configuration file to nginx directory"
+            		cp /opt/owasp-modsecurity-crs/crs-setup.conf.example /etc/nginx/conf.d/crs-setup.conf
+            		touch /etc/nginx/conf.d/main.conf || exit 1
+	    		echo "Include "/etc/nginx/conf.d/modsecurity.conf"" | sudo tee -a /etc/nginx/conf.d/main.conf || exit 1
+	    		echo "Include "/etc/nginx/conf.d/crs-setup.conf"" | sudo tee -a /etc/nginx/conf.d/main.conf || exit 1
+	    		echo "Include "/etc/nginx/conf.d/rules/*.conf"" | sudo tee -a /etc/nginx/conf.d/main.conf || exit 1
+			echo "ModSecurity Configuration Complete"
+		fi
 
 		# Restart Nginx
+		echo "Restarting NGINX"
+		sleep 3
 		systemctl restart nginx
 
 		# Block Nginx from being installed via APT
@@ -452,10 +535,16 @@ case $OPTION in
 		fi
 
 		# Removing temporary Nginx and modules files
+		echo "Removing temporary Nginx and modules files"
+		sleep 3
 		rm -r /usr/local/src/nginx
 
 		# We're done !
-		echo "Installation done."
+		echo "NGINX Installed Successfully"
+		T2=$(date +%s)
+		diffsec="$(expr $T2 - $T1)"
+		echo | awk -v D=$diffsec '{printf "Time taken to compile and install NGINX is: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
+		
 	exit
 	;;
 	2) # Uninstall Nginx
@@ -469,8 +558,13 @@ case $OPTION in
 		fi
 		# Stop Nginx
 		systemctl stop nginx
-
+		echo "Nginx Stopped"
+		sleep 1
+		systemctl daemon-reload
+		echo "Units Reloaded"
 		# Removing Nginx files and modules files
+		echo "Removing Nginx files and modules"
+		sleep 2
 		rm -r /usr/local/src/nginx \
 		/usr/sbin/nginx* \
 		/etc/logrotate.d/nginx \
@@ -479,15 +573,20 @@ case $OPTION in
 		/etc/systemd/system/multi-user.target.wants/nginx.service
 
 		# Remove conf files
+		echo "Removing other configuration files"
+		sleep 2
 		if [[ "$RM_CONF" = 'y' ]]; then
 			rm -r /etc/nginx/
 		fi
 
 		# Remove logs
+		echo "Removing logs cleaning up"
+		sleep 2
 		if [[ "$RM_LOGS" = 'y' ]]; then
 			rm -r /var/log/nginx
 		fi
-
+		echo "Cleanup Complete"
+		sleep 2
 		# Remove Nginx APT block
 		if [[ $(lsb_release -si) == "Debian" ]] || [[ $(lsb_release -si) == "Ubuntu" ]]
 		then
@@ -495,17 +594,26 @@ case $OPTION in
 		fi
 
 		# We're done !
-		echo "Uninstallation done."
+		echo "Nginx is now fully uninstalled."
+		
+		T2=$(date +%s)
+		diffsec="$(expr $T2 - $T1)"
+		echo | awk -v D=$diffsec '{printf "Time taken to uninstall NGINX is: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
+		
 
 		exit
 	;;
-	3) # Update the script
-		wget https://raw.githubusercontent.com/OptimBro/Advanced-Nginx-Install-Script/master/ngx.sh -O ngx.sh
-		chmod +x ngx.sh
+	3) # # Update the script
+		wget https://raw.githubusercontent.com/OptimBro/Advanced-Nginx-Install-Script/master/nginx-install.sh -O nginx-install.sh
+		chmod +x nginx-install.sh
 		echo ""
-		echo "Update done."
-		sleep 2
-		./ngx.sh
+		echo "Updating script..."
+		sleep 3
+		./nginx-install.sh
+		echo "Update complete"
+		T2=$(date +%s)
+		diffsec="$(expr $T2 - $T1)"
+		echo | awk -v D=$diffsec '{printf "Time taken to update the script is: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
 		exit
 	;;
 	*) # Exit
