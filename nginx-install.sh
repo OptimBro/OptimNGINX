@@ -139,8 +139,8 @@ case $OPTION in
 				read -p "       nginx Redis2 [y/n]: " -e REDIS2
 			done
 			
-			while [[ $SET-MISC != "y" && $SET-MISC != "n" ]]; do
-				read -p "       nginx Set-Misc [y/n]: " -e SET-MISC
+			while [[ $SET_MISC != "y" && $SET_MISC != "n" ]]; do
+				read -p "       nginx SET_MISC [y/n]: " -e SET_MISC
 			done
 			while [[ $HTTP_REDIS != "y" && $HTTP_REDIS != "n" ]]; do
 				read -p "       nginx HTTP_Redis [y/n]: " -e HTTP_REDIS
@@ -301,10 +301,10 @@ case $OPTION in
 			./config
 		fi
 		
-		# SET-MISC
-		if [[ "$SET-MISC" = 'y' ]]; then
+		# SET_MISC
+		if [[ "$SET_MISC" = 'y' ]]; then
 			cd /usr/local/src/nginx/modules || exit 1
-			git clone https://github.com/openresty/set-misc-nginx-module
+			git clone https://github.com/openresty/SET_MISC-nginx-module
 		fi
 		
 		# REDIS2
@@ -410,8 +410,8 @@ case $OPTION in
 			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo "--with-openssl=/usr/local/src/nginx/modules/ngx_http_redis-${HTTP_REDIS_VER}")
 		fi
 		
-		if [[ "$SET-MISC" = 'y' ]]; then
-			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo "--add-module=/usr/local/src/nginx/modules/set-misc-nginx-module")
+		if [[ "$SET_MISC" = 'y' ]]; then
+			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo "--add-module=/usr/local/src/nginx/modules/SET_MISC-nginx-module")
 		fi
 		
 		if [[ "$REDIS2" = 'y' ]]; then
@@ -496,8 +496,8 @@ case $OPTION in
 		echo "Installation done."
 		
 		T2=$(date +%s)
-diffsec="$(expr $T2 - $T1)"
-echo | awk -v D=$diffsec '{printf "Time taken to compile and install Nginx is: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
+		diffsec="$(expr $T2 - $T1)"
+		echo | awk -v D=$diffsec '{printf "Time taken to compile and install Nginx is: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
 		exit
 		;;
 		
@@ -541,8 +541,8 @@ echo | awk -v D=$diffsec '{printf "Time taken to compile and install Nginx is: %
 		echo "Uninstallation done."
 		
 		T2=$(date +%s)
-diffsec="$(expr $T2 - $T1)"
-echo | awk -v D=$diffsec '{printf "Time taken to uninstall nginx is: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
+		diffsec="$(expr $T2 - $T1)"
+		echo | awk -v D=$diffsec '{printf "Time taken to uninstall nginx is: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
 		exit
 	;;
 	3) # Update the script
@@ -554,8 +554,8 @@ echo | awk -v D=$diffsec '{printf "Time taken to uninstall nginx is: %02d:%02d:%
 		./nginx-install.sh
 
 		T2=$(date +%s)
-diffsec="$(expr $T2 - $T1)"
-echo | awk -v D=$diffsec '{printf "Time taken to update the script is: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
+		diffsec="$(expr $T2 - $T1)"
+		echo | awk -v D=$diffsec '{printf "Time taken to update the script is: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
 		exit
 	;;
 	*) # Exit
