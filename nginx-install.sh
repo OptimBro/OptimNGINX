@@ -183,11 +183,15 @@ case $OPTION in
 		mkdir -p /usr/local/src/nginx/modules
 
 		# Dependencies
+		echo "Updating system"
 		apt-get update
+		sleep 1
+		echo "Installing Dependencies..."
 		apt-get install -y build-essential ca-certificates wget curl libpcre3 libpcre3-dev autoconf unzip automake libtool tar git libssl-dev zlib1g-dev uuid-dev lsb-release libxml2-dev libxslt1-dev
         	apt install -y apt-utils autoconf automake build-essential git libcurl4-openssl-dev libgeoip-dev liblmdb-dev libpcre++-dev libtool libxml2-dev libyajl-dev pkgconf wget zlib1g-dev git
-
+		sleep 1
 		# PageSpeed
+		echo "Compiling and Installing PageSpeed"
 		if [[ "$PAGESPEED" = 'y' ]]; then
 			cd /usr/local/src/nginx/modules || exit 1
 			wget https://github.com/pagespeed/ngx_pagespeed/archive/v${NPS_VER}-stable.zip
@@ -197,6 +201,8 @@ case $OPTION in
 			[ -e scripts/format_binary_url.sh ] && psol_url=$(scripts/format_binary_url.sh PSOL_BINARY_URL)
 			wget "${psol_url}"
 			tar -xzvf "$(basename "${psol_url}")"
+		echo "PageSpeed Compiled and Installed"
+		sleep 2
 		fi
 
 		#Brotli
@@ -518,7 +524,10 @@ case $OPTION in
 		fi
 		# Stop Nginx
 		systemctl stop nginx
-
+		echo "Nginx Stopped"
+		sleep 1
+		systemctl daemon-reload
+		echo "Units Reloaded"
 		# Removing Nginx files and modules files
 		echo "Removing Nginx files and modules"
 		sleep 2
