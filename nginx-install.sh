@@ -1,5 +1,5 @@
 #!/bin/bash
-T1="$(date +%s)"
+T1=$(date +%s)
 
 if [[ "$EUID" -ne 0 ]]; then
 	echo -e "Sorry, you need to run this as root"
@@ -474,10 +474,9 @@ case $OPTION in
 		# We're done !
 		echo "Installation done."
 		
-		T2="$(date +%s)"
-		diffsec="$(expr $T2 - $T1)"
-		echo | awk -v D=$diffsec '{printf "Script took %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60 to compile on your server."}'
-		
+		T2=$(date +%s)
+diffsec="$(expr $T2 - $T1)"
+echo | awk -v D=$diffsec '{printf "Elapsed time: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
 		exit
 		;;
 		
@@ -520,10 +519,9 @@ case $OPTION in
 		# We're done !
 		echo "Uninstallation done."
 		
-		T2="$(date +%s)"
-		diffsec="$(expr $T2 - $T1)"
-		echo | awk -v D=$diffsec '{printf "Script took %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60 to compile on your server."}'
-		
+		T2=$(date +%s)
+diffsec="$(expr $T2 - $T1)"
+echo | awk -v D=$diffsec '{printf "Elapsed time: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
 		exit
 	;;
 	3) # Update the script
@@ -534,10 +532,9 @@ case $OPTION in
 		sleep 2
 		./nginx-install.sh
 
-		T2="$(date +%s)"
-		diffsec="$(expr $T2 - $T1)"
-		echo | awk -v D=$diffsec '{printf "Script took %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60 to compile on your server."}'
-		
+		T2=$(date +%s)
+diffsec="$(expr $T2 - $T1)"
+echo | awk -v D=$diffsec '{printf "Elapsed time: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
 		exit
 	;;
 	*) # Exit
