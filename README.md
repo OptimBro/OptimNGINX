@@ -12,14 +12,11 @@ NGINX Install Script Extended (NISE) - A complete NGINX installation script with
 - ngx_cache_purge (Purge content from FastCGI, proxy, SCGI and uWSGI caches)
 - ngx-fancyindex (Fancy indexes module)
 
-Install Nginx
-Just download and execute the script :
+# How to use
+Just run this command in your shell to download and run the script, and then just follow the instruction on your screen:
 
 ```
-cd /tmp
-rm ngx.sh
-wget https://raw.githubusercontent.com/OptimBro/Advanced-Nginx-Install-Script/master/ngx.sh
-chmod +x ngx.sh
-./ngx.sh
+cd /tmp; rm ngx.sh; wget https://raw.githubusercontent.com/OptimBro/Advanced-Nginx-Install-Script/master/ngx.sh; chmod +x ngx.sh; bash ngx.sh
 ```
+
 Credits: Forked from https://github.com/angristan/nginx-autoinstall (Thanks for the script)
