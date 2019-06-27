@@ -1,5 +1,5 @@
-# NGINX Install Script (NISE)
-NGINX Install Script (NISE) - A complete NGINX installation script with extra module support and configuration.
+# NGINX Install Script Extended (NISE)
+NGINX Install Script Extended (NISE) - A complete NGINX installation script with extra module support and configuration.
 
 # Optional modules/features
 - ModSecurity v3
