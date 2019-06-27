@@ -504,6 +504,7 @@ case $OPTION in
         	if [[ ! -e /etc/nginx/conf.d/modsecurity.conf ]]; then
 			echo "ModSecurity Configuration Starts"
             		cd /etc/nginx/conf.d/ || exit 1
+			wget -P https://github.com/SpiderLabs/ModSecurity/raw/v3/master/unicode.mapping || exit 1
             		wget -O modsecurity.conf https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/modsecurity.conf-recommended || exit 1
             		sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/conf.d/modsecurity.conf || exit 1
 			echo "Cleaning Directory"
