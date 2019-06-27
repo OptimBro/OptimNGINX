@@ -232,6 +232,7 @@ case $OPTION in
 			tar xaf ${GEOIP2_VER}.tar.gz
 
 			mkdir geoip-db
+			rm -rf /opt/geoip
 			cd geoip-db || exit 1
 			wget https://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.tar.gz
 			wget https://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz
@@ -458,16 +459,22 @@ case $OPTION in
 		fi
 
         	if [[ ! -e /etc/nginx/conf.d/modsecurity.conf ]]; then
+			echo "ModSecurity Configuration Starts"
+			sleep 1
             		cd /etc/nginx/conf.d/ || exit 1
             		wget -O modsecurity.conf https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/modsecurity.conf-recommended || exit 1
             		sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/conf.d/modsecurity.conf || exit 1
-			
+			echo "Cleaning Directory"
+			sleep 1
+			rm -rf /opt/owasp-modsecurity-crs || exit 1 
             		cd /opt/ || exit 1
-			
+			echo "Directory Cleaned"
             		git clone https://github.com/SpiderLabs/owasp-modsecurity-crs.git || exit 1
 			
             		cd owasp-modsecurity-crs/ || exit 1
             		cp -R rules/ /etc/nginx/conf.d/ || exit 1
+			echo "Copying configuration file to nginx directory"
+			sleep 2
             		cp /opt/owasp-modsecurity-crs/crs-setup.conf.example /etc/nginx/conf.d/crs-setup.conf
 			
             		touch /etc/nginx/conf.d/main.conf || exit 1
@@ -475,6 +482,7 @@ case $OPTION in
 	    		echo "Include "/etc/nginx/conf.d/modsecurity.conf"" | sudo tee -a /etc/nginx/conf.d/main.conf || exit 1
 	    		echo "Include "/etc/nginx/conf.d/crs-setup.conf"" | sudo tee -a /etc/nginx/conf.d/main.conf || exit 1
 	    		echo "Include "/etc/nginx/conf.d/rules/*.conf"" | sudo tee -a /etc/nginx/conf.d/main.conf || exit 1
+			echo "ModSecurity Configuration Complete"
 		fi
 
 		# Restart Nginx
@@ -494,8 +502,8 @@ case $OPTION in
 		echo "Installation done."
 		
 		T2=$(date +%s)
-diffsec="$(expr $T2 - $T1)"
-echo | awk -v D=$diffsec '{printf "Time taken to compile and install Nginx is: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
+		diffsec="$(expr $T2 - $T1)"
+		echo | awk -v D=$diffsec '{printf "Time taken to compile and install Nginx is: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
 		exit
 		;;
 		
@@ -512,6 +520,8 @@ echo | awk -v D=$diffsec '{printf "Time taken to compile and install Nginx is: %
 		systemctl stop nginx
 
 		# Removing Nginx files and modules files
+		echo "Removing Nginx files and modules"
+		sleep 2
 		rm -r /usr/local/src/nginx \
 		/usr/sbin/nginx* \
 		/etc/logrotate.d/nginx \
@@ -520,15 +530,20 @@ echo | awk -v D=$diffsec '{printf "Time taken to compile and install Nginx is: %
 		/etc/systemd/system/multi-user.target.wants/nginx.service
 
 		# Remove conf files
+		echo "Removing other configuration files"
+		sleep 2
 		if [[ "$RM_CONF" = 'y' ]]; then
 			rm -r /etc/nginx/
 		fi
 
 		# Remove logs
+		echo "Removing logs cleaning up"
+		sleep 2
 		if [[ "$RM_LOGS" = 'y' ]]; then
 			rm -r /var/log/nginx
 		fi
-
+		echo "Cleanup Complete"
+		sleep 2
 		# Remove Nginx APT block
 		if [[ $(lsb_release -si) == "Debian" ]] || [[ $(lsb_release -si) == "Ubuntu" ]]
 		then
@@ -536,24 +551,24 @@ echo | awk -v D=$diffsec '{printf "Time taken to compile and install Nginx is: %
 		fi
 
 		# We're done !
-		echo "Uninstallation done."
+		echo "Nginx is now fully uninstalled."
 		
 		T2=$(date +%s)
-diffsec="$(expr $T2 - $T1)"
-echo | awk -v D=$diffsec '{printf "Time taken to uninstall nginx is: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
+		diffsec="$(expr $T2 - $T1)"
+		echo | awk -v D=$diffsec '{printf "Time taken to uninstall nginx is: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
 		exit
 	;;
 	3) # Update the script
 		wget https://raw.githubusercontent.com/OptimBro/Advanced-Nginx-Install-Script/master/nginx-install.sh -O nginx-install.sh
 		chmod +x nginx-install.sh
 		echo ""
-		echo "Update done."
-		sleep 2
+		echo "Updating script..."
+		sleep 3
 		./nginx-install.sh
-
+		echo "Update complete"
 		T2=$(date +%s)
-diffsec="$(expr $T2 - $T1)"
-echo | awk -v D=$diffsec '{printf "Time taken to update the script is: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
+		diffsec="$(expr $T2 - $T1)"
+		echo | awk -v D=$diffsec '{printf "Time taken to update the script is: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
 		exit
 	;;
 	*) # Exit
