@@ -1,4 +1,4 @@
-# Advanced Nginx Install Script
+# NGINX Install Script (NISE)
 A modified nginx install script with extra module support. Inspired from: https://github.com/angristan/nginx-autoinstall
 
 # Optional modules/features
