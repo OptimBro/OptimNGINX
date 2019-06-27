@@ -54,7 +54,7 @@ echo '
        '
         echo ""
 	echo ""
-	echo "Nginx Installer v11.0"
+	echo "Nginx Installer v12.0"
 	echo "It is the most complete nginx installation script which supports most widely used nginx modules."
 	echo "Choose your desired option from the menu"
 	echo "Credits: Forked from https://github.com/angristan/nginx-autoinstall, thanks to the developer."
