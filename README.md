@@ -16,6 +16,8 @@ Install Nginx
 Just download and execute the script :
 
 ```
+cd /tmp
+rm nginx-install.sh
 wget https://raw.githubusercontent.com/OptimBro/Advanced-Nginx-Install-Script/master/nginx-install.sh
 chmod +x nginx-install.sh
 ./nginx-install.sh
