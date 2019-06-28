@@ -63,4 +63,4 @@ wp option update blog_public "on"
 # update the permalink structure
 wp rewrite structure '/%postname%/'
 
-echo WordPress Installed & Configured Successfuly.
+echo WordPress Installed and Configured Successfuly
