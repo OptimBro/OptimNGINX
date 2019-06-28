@@ -401,23 +401,13 @@ case $OPTION in
 		--with-openssl-opt=no-nextprotoneg 
 		--with-openssl-opt=no-weak-ssl-ciphers 
 		--with-openssl-opt=enable-tls1_3 
-		--with-cc-opt='-g -O2 -fPIC -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2' --with-ld-opt='-Wl,-Bsymbolic-functions -fPIC -pie -Wl,-z,relro -Wl,-z,now' --with-pcre-opt='-g -Ofast -fPIC -m64 -march=native -fstack-protector-strong -D_FORTIFY_SOURCE=2' --with-zlib-opt='-g -Ofast -fPIC -m64 -march=native -fstack-protector-strong -D_FORTIFY_SOURCE=2'"
+		--with-cc-opt='-g -O2 -fPIC -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2' --with-ld-opt='-Wl,-Bsymbolic-functions -fPIC -pie -Wl,-z,relro -Wl,-z,now' --with-pcre-opt='-g -Ofast -fPIC -m64 -march=native -fstack-protector-strong -D_FORTIFY_SOURCE=2' --with-zlib-opt='-g -Ofast -fPIC -m64 -march=native -fstack-protector-strong -D_FORTIFY_SOURCE=2' "
 		
 		NGINX_MODULES="--with-threads \
-		--with-file-aio \
-		--with-http_ssl_module \
-		--with-http_v2_module \
-		--with-http_mp4_module \
-		--with-http_auth_request_module \
-		--with-http_slice_module \
-		--with-http_stub_status_module \
 		--with-pcre-jit \
 		--with-debug \
-		--with-http_realip_module \
 		--with-http_degradation_module \
-		--with-compat \
 		--with-file-aio \ 
-		--with-threads \
 		--with-http_addition_module \ 
 		--with-http_auth_request_module \ 
 		--with-http_dav_module \
