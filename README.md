@@ -16,13 +16,13 @@ NGINX Install Script Extended (NISE) - A complete NGINX installation script with
 Just run this command in your shell to download and run the script, and then just follow the instruction on your screen:
 
 ```
-cd /tmp; rm ngx.sh; wget https://raw.githubusercontent.com/OptimBro/Advanced-Nginx-Install-Script/master/ngx.sh; chmod +x ngx.sh; bash ngx.sh
+cd /tmp; rm ngx.sh; wget https://raw.githubusercontent.com/OptimBro/OptimNGINX/master/ngx.sh; chmod +x ngx.sh; bash ngx.sh
 ```
 
 # Installing WordPress (Optional)
 You need to setup WP CLI first
 ```
-cd /web; rm wp.sh; wget https://raw.githubusercontent.com/OptimBro/NGINX-Install-Script-Extentded-NISE/master/wp.sh; chmod +x wp.sh; bash wp.sh
+cd /web; rm wp.sh; wget https://raw.githubusercontent.com/OptimBro/OptimNGINX/master/wp.sh; chmod +x wp.sh; bash wp.sh
 ```
 
 Credits: Forked from https://github.com/angristan/nginx-autoinstall (Thanks for the script)
