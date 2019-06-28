@@ -15,6 +15,8 @@ HEADERMOD_VER=0.33
 LIBMAXMINDDB_VER=1.3.2
 GEOIP2_VER=3.2
 HTTP_REDIS_VER=0.3.9
+PCRE_NGINX_VER=8.42
+ZLIB_NGINX_VER=1.2.11
 
 # Define installation paramaters for headless install (fallback if unspecifed)
 if [[ "$HEADLESS" == "y" ]]; then
@@ -144,6 +146,9 @@ case $OPTION in
 			done
 			while [[ $ECHO_NGINX != "y" && $ECHO_NGINX != "n" ]]; do
 				read -p "       nginx ECHO [y/n]: " -e ECHO_NGINX
+			done
+			while [[ $PCRE_NGINX != "y" && $PCRE_NGINX != "n" ]]; do
+				read -p "       nginx PCRE [y/n]: " -e PCRE_NGINX
 			done
 			
 			echo ""
@@ -343,6 +348,24 @@ case $OPTION in
 			cd ngx_http_redis-${HTTP_REDIS_VER}
 		fi
 		
+		if [[ "$PCRE_NGINX" = 'y' ]]; then
+		echo "Configuring PCRE_NGINX Module"
+		sleep 3
+			cd /usr/local/src/nginx/modules || exit 1
+			wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-${PCRE_NGINX_VER}.tar.gz
+			tar xaf pcre-${PCRE_NGINX_VER}.tar.gz
+			cd pcre-${PCRE_NGINX_VER}
+		fi
+		
+		if [[ "$ZLIB_NGINX" = 'y' ]]; then
+		echo "Configuring ZLIB_NGINX Module"
+		sleep 3
+			cd /usr/local/src/nginx/modules || exit 1
+			wget http://zlib.net/zlib-${ZLIB_NGINX_VER}.tar.gz
+			tar xaf zlib-${ZLIB_NGINX_VER}.tar.gz
+			cd zlib-${ZLIB_NGINX_VER}
+		fi
+		
 		# Download and extract of Nginx source code
 		echo "Downloading NGINX..."
 		sleep 3
@@ -375,6 +398,9 @@ case $OPTION in
 		--http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \
 		--user=www-data \
 		--group=www-data \
+		--with-openssl-opt=no-nextprotoneg 
+		--with-openssl-opt=no-weak-ssl-ciphers 
+		--with-openssl-opt=enable-tls1_3 
 		--with-cc-opt='-g -O2 -fPIC -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2' --with-ld-opt='-Wl,-Bsymbolic-functions -fPIC -pie -Wl,-z,relro -Wl,-z,now' --with-pcre-opt='-g -Ofast -fPIC -m64 -march=native -fstack-protector-strong -D_FORTIFY_SOURCE=2' --with-zlib-opt='-g -Ofast -fPIC -m64 -march=native -fstack-protector-strong -D_FORTIFY_SOURCE=2'"
 		
 		NGINX_MODULES="--with-threads \
@@ -487,6 +513,12 @@ case $OPTION in
 		if [[ "$ECHO_NGINX" = 'y' ]]; then
 			git clone --quiet https://github.com/openresty/echo-nginx-module.git /usr/local/src/nginx/modules/echo-nginx-module
 			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo --add-module=/usr/local/src/nginx/modules/echo-nginx-module)
+		fi
+		if [[ "$PCRE_NGINX" = 'y' ]]; then
+			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo --with-pcre=/usr/local/src/nginx/modules/pcre-${PCRE_NGINX_VER})
+		fi
+		if [[ "$ZLIB_NGINX" = 'y' ]]; then
+			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo --with-zlib=/usr/local/src/nginx/modules/zlib-${ZLIB_NGINX_VER})
 		fi
 		
 		echo "Compiling NGINX"
