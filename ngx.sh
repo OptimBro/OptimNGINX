@@ -298,12 +298,11 @@ case $OPTION in
 		echo "Configuring ModSecurity"
 		sleep 3
 			cd /usr/local/src/nginx/modules || exit 1
-			git clone https://github.com/SpiderLabs/ModSecurity
+			git clone --depth 1 -b v3/master --single-branch https://github.com/SpiderLabs/ModSecurity
 			cd ModSecurity || exit 1
-			git checkout -b v3/master origin/v3/master
-            		sh build.sh
-            		git submodule init
+			git submodule init
             		git submodule update
+			./build.sh
             		./configure
             		make
             		make install
@@ -434,7 +433,7 @@ case $OPTION in
 		fi
 		
 		if [[ "$MODSEC" = 'y' ]]; then
-			git clone --quiet https://github.com/SpiderLabs/ModSecurity-nginx.git /usr/local/src/nginx/modules/nginx-modsec-connect
+			git clone --quiet --depth 1 https://github.com/SpiderLabs/ModSecurity-nginx.git /usr/local/src/nginx/modules/nginx-modsec-connect
 			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo --add-module=/usr/local/src/nginx/modules/nginx-modsec-connect)
 		fi
 		
