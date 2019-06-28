@@ -1,5 +1,5 @@
 #!/bin/bash
-T1=$(date +%s)
+tstart=$(date +%s)
 if [[ "$EUID" -ne 0 ]]; then
 	echo -e "Sorry, you need to run this as root"
 	exit 1
@@ -541,10 +541,9 @@ case $OPTION in
 
 		# We're done !
 		echo "NGINX Installed Successfully"
-		T2=$(date +%s)
-		diffsec="$(expr $T2 - $T1)"
-		echo | awk -v D=$diffsec '{printf "Time taken to compile and install NGINX is: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
-		
+		tend=$(date +%s)
+		totalruntime=$((tend-tstart))
+		echo "Total To Compile and Install Nginx: $totalruntime seconds!"
 	exit
 	;;
 	2) # Uninstall Nginx
@@ -596,11 +595,9 @@ case $OPTION in
 		# We're done !
 		echo "Nginx is now fully uninstalled."
 		
-		T2=$(date +%s)
-		diffsec="$(expr $T2 - $T1)"
-		echo | awk -v D=$diffsec '{printf "Time taken to uninstall NGINX is: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
-		
-
+		tend=$(date +%s)
+		totalruntime=$((tend-tstart))
+		echo "Total To Uninstall Nginx: $totalruntime seconds!"
 		exit
 	;;
 	3) # # Update the script
@@ -611,9 +608,9 @@ case $OPTION in
 		sleep 3
 		./ngx.sh
 		echo "Update complete"
-		T2=$(date +%s)
-		diffsec="$(expr $T2 - $T1)"
-		echo | awk -v D=$diffsec '{printf "Time taken to update the script is: %02d:%02d:%02d\n",D/(60*60),D%(60*60)/60,D%60}'
+				tend=$(date +%s)
+		totalruntime=$((tend-tstart))
+		echo "Total To Update The OptimNGINX(SCRIPT): $totalruntime seconds!"
 		exit
 	;;
 	*) # Exit
