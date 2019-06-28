@@ -27,14 +27,14 @@ sleep 2
 wp core install --url=$url --title="$title" --admin_user=$admin_user --admin_password=$admin_password --admin_email=$admin_email
 sleep 3
 # delete default installed plugins and themes we don't need
-echo Removing Default WordPress Plugins & Themes
+echo Removing Default WordPress Plugins and Themes
 sleep 2
 wp plugin delete hello-dolly akismet
 wp theme delete twentyfourteen twentyfifteen
 sleep 3
 
 # installing recommended plugins
-echo Installing Required & Recommended Plugins
+echo Installing Required and Recommended Plugins
 sleep 2
 wp plugin install seo-by-rank-math nginx-helper
 wp plugin activate nginx-helper
