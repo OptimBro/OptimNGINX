@@ -139,6 +139,12 @@ case $OPTION in
 			while [[ $HTTP_REDIS != "y" && $HTTP_REDIS != "n" ]]; do
 				read -p "       nginx HTTP_Redis [y/n]: " -e HTTP_REDIS
 			done
+			while [[ $MEMC_NGINX != "y" && $MEMC_NGINX != "n" ]]; do
+				read -p "       nginx MEMC [y/n]: " -e MEMC_NGINX
+			done
+			while [[ $ECHO_NGINX != "y" && $ECHO_NGINX != "n" ]]; do
+				read -p "       nginx ECHO [y/n]: " -e ECHO_NGINX
+			done
 			
 			echo ""
 			echo "Choose your OpenSSL implementation :"
@@ -473,6 +479,14 @@ case $OPTION in
 		
 		if [[ "$HTTP_REDIS" = 'y' ]]; then
 			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo "--add-module=/usr/local/src/nginx/modules/ngx_http_redis-${HTTP_REDIS_VER}")
+		fi
+		if [[ "$MEMC_NGINX" = 'y' ]]; then
+			git clone --quiet https://github.com/openresty/memc-nginx-module.git /usr/local/src/nginx/modules/memc-nginx-module
+			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo --add-module=/usr/local/src/nginx/modules/memc-nginx-module)
+		fi
+		if [[ "$ECHO_NGINX" = 'y' ]]; then
+			git clone --quiet https://github.com/openresty/echo-nginx-module.git /usr/local/src/nginx/modules/echo-nginx-module
+			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo --add-module=/usr/local/src/nginx/modules/echo-nginx-module)
 		fi
 		
 		echo "Compiling NGINX"
