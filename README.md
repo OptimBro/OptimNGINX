@@ -22,7 +22,7 @@ cd /tmp; rm ngx.sh; wget https://raw.githubusercontent.com/OptimBro/Advanced-Ngi
 # Installing WordPress (Optional)
 You need to setup WP CLI first
 ```
-cd /tmp; rm wp.sh; wget https://raw.githubusercontent.com/OptimBro/NGINX-Install-Script-Extentded-NISE/master/wp.sh; chmod +x wp.sh; bash wp.sh
+cd /web; rm wp.sh; wget https://raw.githubusercontent.com/OptimBro/NGINX-Install-Script-Extentded-NISE/master/wp.sh; chmod +x wp.sh; bash wp.sh
 ```
 
 Credits: Forked from https://github.com/angristan/nginx-autoinstall (Thanks for the script)
