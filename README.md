@@ -1,7 +1,9 @@
 # OptimNGINX
+
 NGINX Install Script Extended (NISE) - A complete NGINX installation script with extra module support and configuration.
 
 # Optional modules/features
+
 - ModSecurity v3
 - LibreSSL from source (CHACHA20, ALPN for HTTP/2, X25519, P-521)
 - OpenSSL from source (TLS 1.3, CHACHA20, ALPN for HTTP/2, X25519, P-521)
@@ -13,6 +15,7 @@ NGINX Install Script Extended (NISE) - A complete NGINX installation script with
 - ngx-fancyindex (Fancy indexes module)
 
 # How to use
+
 Just run this command in your shell to download and run the script, and then just follow the instruction on your screen:
 
 ```
@@ -20,6 +23,7 @@ cd /tmp; rm ngx.sh; wget https://raw.githubusercontent.com/OptimBro/OptimNGINX/m
 ```
 
 # Installing WordPress (Optional)
+
 You need to setup WP CLI first
 ```
 cd /web; rm wp.sh; wget https://raw.githubusercontent.com/OptimBro/OptimNGINX/master/wp.sh; chmod +x wp.sh; bash wp.sh
