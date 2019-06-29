@@ -403,8 +403,8 @@ case $OPTION in
 		--http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \
 		--user=nginx \
 		--group=nginx \
-		--with-cc-opt='-g -O2 -fPIC -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2' --with-ld-opt='-Wl,-Bsymbolic-functions -fPIC -pie -Wl,-z,relro -Wl,-z,now' --with-pcre-opt='-g -Ofast -fPIC -m64 -march=native -fstack-protector-strong -D_FORTIFY_SOURCE=2' --with-zlib-opt='-g -Ofast -fPIC -m64 -march=native -fstack-protector-strong -D_FORTIFY_SOURCE=2' "
-
+		--with-cc-opt=-Wno-deprecated-declarations"
+		
 		NGINX_MODULES="--with-threads \
 		--with-file-aio \
 		--with-http_ssl_module \
@@ -413,7 +413,25 @@ case $OPTION in
 		--with-http_auth_request_module \
 		--with-http_slice_module \
 		--with-http_stub_status_module \
-		--with-http_realip_module"
+		--with-http_realip_module \
+		--with-pcre-jit \
+		--with-debug \
+		--with-http_degradation_module \
+		--with-http_addition_module \
+		--with-http_dav_module \
+		--with-http_flv_module \
+		--with-http_gunzip_module \
+		--with-http_gzip_static_module \
+		--with-http_random_index_module \
+		--with-http_sub_module \
+		--with-http_secure_link_module \
+		--with-stream=dynamic \
+		--with-stream_realip_module \
+		--with-stream_ssl_module \
+		--with-stream_ssl_preread_module \
+		--with-http_xslt_module=dynamic \
+		--with-select_module \
+		--with-poll_module"
 		
 		# Optional modules
 		if [[ "$NGX_DEVEL_KIT" = 'y' ]]; then
