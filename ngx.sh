@@ -301,9 +301,11 @@ case $OPTION in
 		fi
 		
 		#Modsec
+		
 		if [[ "$MODSEC" = 'y' ]]; then
 		echo "Configuring ModSecurity"
 		sleep 3
+			if [[ ! -d /usr/local/src/nginx/modules/ModSecurity ]]; then
 			cd /usr/local/src/nginx/modules || exit 1
 			git clone --depth 1 -b v3/master --single-branch https://github.com/SpiderLabs/ModSecurity
 			cd ModSecurity || exit 1
@@ -313,6 +315,7 @@ case $OPTION in
             		./configure
             		make
             		make install
+			fi
 		fi
 		
 		# SRCACHE
@@ -399,8 +402,9 @@ case $OPTION in
 		--http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \
 		--user=www-data \
 		--group=www-data \
-		--with-openssl-opt=no-nextprotoneg 
-		--with-openssl-opt=no-weak-ssl-ciphers 
+		--with-openssl-opt=no-nextprotoneg \
+		--with-openssl-opt=no-weak-ssl-ciphers \
+		--with-cc-opt='-g -O2 -fPIC -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2' --with-ld-opt='-Wl,-Bsymbolic-functions -fPIC -pie -Wl,-z,relro -Wl,-z,now' --with-pcre-opt='-g -Ofast -fPIC -m64 -march=native -fstack-protector-strong -D_FORTIFY_SOURCE=2' --with-zlib-opt='-g -Ofast -fPIC -m64 -march=native -fstack-protector-strong -D_FORTIFY_SOURCE=2' \
 		--with-openssl-opt=enable-tls1_3 "
 		
 		NGINX_MODULES="--with-threads \
