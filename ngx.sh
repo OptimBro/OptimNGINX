@@ -6,7 +6,7 @@ if [[ "$EUID" -ne 0 ]]; then
 fi
 
 # Define versions
-OPTIM_NGINX_VER=15.8.6
+OPTIM_NGINX_VER=15.8.7
 NGINX_MAINLINE_VER=1.17.0
 NGINX_STABLE_VER=1.16.0
 LIBRESSL_VER=2.9.0
@@ -314,7 +314,11 @@ case $OPTION in
 			git submodule init
             		git submodule update
 			./build.sh
-            		./configure
+            		./configure \
+			--enable-standalone-module \
+			--disable-apache2-module \
+			--enable-pcre-jit
+			
             		make
             		make install
 			fi
