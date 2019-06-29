@@ -6,7 +6,7 @@ if [[ "$EUID" -ne 0 ]]; then
 fi
 
 # Define versions
-OPTIM_NGINX_VER=15.8.9
+OPTIM_NGINX_VER=15.9
 NGINX_MAINLINE_VER=1.17.0
 NGINX_STABLE_VER=1.16.0
 LIBRESSL_VER=2.9.0
@@ -309,7 +309,7 @@ case $OPTION in
 		sleep 3
 			if [[ ! -d /usr/local/src/nginx/modules/ModSecurity ]]; then
 			cd /usr/local/src/nginx/modules || exit 1
-			git clone --depth 1 -b v3/master --single-branch https://github.com/SpiderLabs/ModSecurity
+			git clone -b nginx_refactoring https://github.com/SpiderLabs/ModSecurity
 			cd ModSecurity || exit 1
 			git submodule init
             		git submodule update
