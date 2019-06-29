@@ -151,7 +151,9 @@ case $OPTION in
 			while [[ $PCRE_NGINX != "y" && $PCRE_NGINX != "n" ]]; do
 				read -p "       nginx PCRE [y/n]: " -e PCRE_NGINX
 			done
-			
+			while [[ $ZLIB_NGINX != "y" && $ZLIB_NGINX != "n" ]]; do
+				read -p "       nginx zlib [y/n]: " -e ZLIB_NGINX
+			done
 			echo ""
 			echo "Choose your OpenSSL implementation :"
 			echo "   1) System's OpenSSL ($(openssl version | cut -c9-14))"
