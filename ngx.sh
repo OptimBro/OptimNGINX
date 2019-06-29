@@ -659,6 +659,11 @@ case $OPTION in
 		exit
 	;;
 	3) # # Update the script
+		echo "Purging DNS Cache"
+		sudo /etc/init.d/networking restart
+		sleep 1
+		echo "Starting update..."
+		sleep 1
 		wget https://raw.githubusercontent.com/OptimBro/Advanced-Nginx-Install-Script/master/ngx.sh -O ngx.sh
 		chmod +x ngx.sh
 		echo ""
