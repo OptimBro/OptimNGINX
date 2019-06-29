@@ -6,7 +6,7 @@ if [[ "$EUID" -ne 0 ]]; then
 fi
 
 # Define versions
-OPTIM_NGINX_VER=15.8
+OPTIM_NGINX_VER=15.8.1
 NGINX_MAINLINE_VER=1.17.0
 NGINX_STABLE_VER=1.16.0
 LIBRESSL_VER=2.9.0
@@ -406,9 +406,10 @@ case $OPTION in
 		--group=www-data \
 		--with-openssl-opt=no-nextprotoneg \
 		--with-openssl-opt=no-weak-ssl-ciphers \
-		--with-openssl-opt=enable-tls1_3 "
+		--with-openssl-opt=enable-tls1_3"
 		
-		NGINX_MODULES="--with-threads \
+		NGINX_MODULES="
+		--with-threads \
 		--with-pcre-jit \
 		--with-debug \
 		--with-http_degradation_module \
@@ -435,7 +436,7 @@ case $OPTION in
 		--with-http_xslt_module=dynamic \
 		--with-select_module \
 		--with-poll_module \
-		--with-http_image_filter_module=dynamic "
+		--with-http_image_filter_module=dynamic"
 
 		# Optional modules
 		if [[ "$NGX_DEVEL_KIT" = 'y' ]]; then
@@ -444,7 +445,7 @@ case $OPTION in
 		fi
 		
 		if [[ "$LIBRESSL" = 'y' ]]; then
-			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo --with-openssl=/usr/local/src/nginx/modules/libressl-${LIBRESSL_VER})
+			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo "--with-openssl=/usr/local/src/nginx/modules/libressl-${LIBRESSL_VER}")
 		fi
 
 		if [[ "$PAGESPEED" = 'y' ]]; then
@@ -473,17 +474,17 @@ case $OPTION in
 
 		if [[ "$FANCYINDEX" = 'y' ]]; then
 			git clone --quiet https://github.com/aperezdc/ngx-fancyindex.git /usr/local/src/nginx/modules/fancyindex
-			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo --add-module=/usr/local/src/nginx/modules/fancyindex)
+			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo "--add-module=/usr/local/src/nginx/modules/fancyindex")
 		fi
 		
 		if [[ "$WEBDAV" = 'y' ]]; then
 			git clone --quiet https://github.com/arut/nginx-dav-ext-module.git /usr/local/src/nginx/modules/nginx-dav-ext-module
-			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo --with-http_dav_module --add-module=/usr/local/src/nginx/modules/nginx-dav-ext-module)
+			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo "--with-http_dav_module --add-module=/usr/local/src/nginx/modules/nginx-dav-ext-module")
 		fi
 		
 		if [[ "$MODSEC" = 'y' ]]; then
 			git clone --quiet --depth 1 https://github.com/SpiderLabs/ModSecurity-nginx.git /usr/local/src/nginx/modules/nginx-modsec-connect
-			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo --add-module=/usr/local/src/nginx/modules/nginx-modsec-connect)
+			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo "--add-module=/usr/local/src/nginx/modules/nginx-modsec-connect")
 		fi
 		
 		if [[ "$SRCACHE" = 'y' ]]; then
@@ -503,17 +504,17 @@ case $OPTION in
 		fi
 		if [[ "$MEMC_NGINX" = 'y' ]]; then
 			git clone --quiet https://github.com/openresty/memc-nginx-module.git /usr/local/src/nginx/modules/memc-nginx-module
-			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo --add-module=/usr/local/src/nginx/modules/memc-nginx-module)
+			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo "--add-module=/usr/local/src/nginx/modules/memc-nginx-module")
 		fi
 		if [[ "$ECHO_NGINX" = 'y' ]]; then
 			git clone --quiet https://github.com/openresty/echo-nginx-module.git /usr/local/src/nginx/modules/echo-nginx-module
-			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo --add-module=/usr/local/src/nginx/modules/echo-nginx-module)
+			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo "--add-module=/usr/local/src/nginx/modules/echo-nginx-module")
 		fi
 		if [[ "$PCRE_NGINX" = 'y' ]]; then
-			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo --with-pcre=/usr/local/src/nginx/modules/pcre-${PCRE_NGINX_VER})
+			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo "--with-pcre=/usr/local/src/nginx/modules/pcre-${PCRE_NGINX_VER}")
 		fi
 		if [[ "$ZLIB_NGINX" = 'y' ]]; then
-			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo --with-zlib=/usr/local/src/nginx/modules/zlib-${ZLIB_NGINX_VER})
+			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo "--with-zlib=/usr/local/src/nginx/modules/zlib-${ZLIB_NGINX_VER}")
 		fi
 		
 		echo "Compiling NGINX"
