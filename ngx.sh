@@ -391,7 +391,6 @@ case $OPTION in
 		cd /usr/local/src/nginx/nginx-${NGINX_VER} || exit 1
 
 		NGINX_OPTIONS="
-		--build=OptimEngine \
 		--prefix=/etc/nginx \
 		--sbin-path=/usr/sbin/nginx \
 		--conf-path=/etc/nginx/nginx.conf \
@@ -405,34 +404,16 @@ case $OPTION in
 		--user=nginx \
 		--group=nginx \
 		--with-cc-opt=-Wno-deprecated-declarations"
-		
+
 		NGINX_MODULES="--with-threads \
-		--with-pcre-jit \
-		--with-debug \
-		--with-http_degradation_module \
-		--with-file-aio \ 
-		--with-http_addition_module \ 
-		--with-http_auth_request_module \ 
-		--with-http_dav_module \
-		--with-http_flv_module \
-		--with-http_gunzip_module \ 
-		--with-http_gzip_static_module \
-		--with-http_mp4_module \
-		--with-http_random_index_module \
-		--with-http_realip_module \
-		--with-http_slice_module \
+		--with-file-aio \
 		--with-http_ssl_module \
-		--with-http_sub_module \
-		--with-http_stub_status_module \
 		--with-http_v2_module \
-		--with-http_secure_link_module \
-		--with-stream=dynamic \
-		--with-stream_realip_module \
-		--with-stream_ssl_module \
-		--with-stream_ssl_preread_module \
-		--with-http_xslt_module=dynamic \
-		--with-select_module \
-		--with-poll_module"
+		--with-http_mp4_module \
+		--with-http_auth_request_module \
+		--with-http_slice_module \
+		--with-http_stub_status_module \
+		--with-http_realip_module"
 		
 		# Optional modules
 		if [[ "$NGX_DEVEL_KIT" = 'y' ]]; then
