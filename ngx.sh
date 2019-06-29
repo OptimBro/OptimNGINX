@@ -196,6 +196,7 @@ case $OPTION in
 		echo "Installing Dependencies..."
 		apt-get -o Acquire::ForceIPv4=true install -y build-essential ca-certificates wget curl libpcre3 libpcre3-dev autoconf unzip automake libtool tar git libssl-dev zlib1g-dev uuid-dev lsb-release libxml2-dev libxslt1-dev
         	apt-get -o Acquire::ForceIPv4=true install -y apt-utils autoconf automake build-essential git libcurl4-openssl-dev libgeoip-dev liblmdb-dev libpcre++-dev libtool libxml2-dev libyajl-dev pkgconf wget zlib1g-dev git
+		apt-get -o Acquire::ForceIPv4=true install libtool autoconf build-essential libpcre3-dev zlib1g-dev libssl-dev libxml2-dev libgeoip-dev liblmdb-dev libyajl-dev libcurl4-openssl-dev libpcre++-dev pkgconf libxslt1-dev libgd-dev
 		echo "Dependencies Installed"
 		sleep 3
 		# PageSpeed
@@ -309,13 +310,12 @@ case $OPTION in
 		sleep 3
 			if [[ ! -d /usr/local/src/nginx/modules/ModSecurity ]]; then
 			cd /usr/local/src/nginx/modules || exit 1
-			git clone -b nginx_refactoring https://github.com/SpiderLabs/ModSecurity
+			git clone --depth 1 -b v3/master --single-branch https://github.com/SpiderLabs/ModSecurity
 			cd ModSecurity || exit 1
 			git submodule init
             		git submodule update
 			./build.sh
-            		./configure --enable-standalone-module --disable-apache2-module --enable-pcre-jit
-			
+            		./configure
             		make
             		make install
 			fi
