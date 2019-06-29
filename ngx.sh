@@ -6,7 +6,7 @@ if [[ "$EUID" -ne 0 ]]; then
 fi
 
 # Define versions
-OPTIM_NGINX_VER=15.8.1
+OPTIM_NGINX_VER=15.8.3
 NGINX_MAINLINE_VER=1.17.0
 NGINX_STABLE_VER=1.16.0
 LIBRESSL_VER=2.9.0
@@ -402,14 +402,11 @@ case $OPTION in
 		--http-client-body-temp-path=/var/cache/nginx/client_temp \
 		--http-proxy-temp-path=/var/cache/nginx/proxy_temp \
 		--http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \
-		--user=www-data \
-		--group=www-data \
-		--with-openssl-opt=no-nextprotoneg \
-		--with-openssl-opt=no-weak-ssl-ciphers \
-		--with-openssl-opt=enable-tls1_3"
+		--user=nginx \
+		--group=nginx \
+		--with-cc-opt=-Wno-deprecated-declarations"
 		
-		NGINX_MODULES="
-		--with-threads \
+		NGINX_MODULES="--with-threads \
 		--with-pcre-jit \
 		--with-debug \
 		--with-http_degradation_module \
@@ -435,9 +432,8 @@ case $OPTION in
 		--with-stream_ssl_preread_module \
 		--with-http_xslt_module=dynamic \
 		--with-select_module \
-		--with-poll_module \
-		--with-http_image_filter_module=dynamic"
-
+		--with-poll_module"
+		
 		# Optional modules
 		if [[ "$NGX_DEVEL_KIT" = 'y' ]]; then
 			git clone --quiet https://github.com/simplresty/ngx_devel_kit.git /usr/local/src/nginx/modules/ngx_devel_kit
