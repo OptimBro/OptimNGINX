@@ -6,7 +6,7 @@ if [[ "$EUID" -ne 0 ]]; then
 fi
 
 # Define versions
-OPTIM_NGINX_VER=15.8.7
+OPTIM_NGINX_VER=15.8.8
 NGINX_MAINLINE_VER=1.17.0
 NGINX_STABLE_VER=1.16.0
 LIBRESSL_VER=2.9.0
@@ -429,11 +429,9 @@ case $OPTION in
 		--with-http_random_index_module \
 		--with-http_sub_module \
 		--with-http_secure_link_module \
-		--with-stream=dynamic \
 		--with-stream_realip_module \
 		--with-stream_ssl_module \
 		--with-stream_ssl_preread_module \
-		--with-http_xslt_module=dynamic \
 		--with-select_module \
 		--with-poll_module"
 		
