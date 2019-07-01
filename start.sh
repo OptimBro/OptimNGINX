@@ -12,7 +12,11 @@ LIBMAXMINDDB_VER=1.3.2
 GEOIP2_VER=3.2
 HTTP_REDIS_VER=0.3.9
 PCRE_NGINX_VER=8.42
-ZLIB_NGINX_VER=1.2.11 
+ZLIB_NGINX_VER=1.2.11
+
+rm -rf /opt/dep.sh
+rm -rf /opt/compile.sh
+rm -rf /opt/install.sh
 
 echo "Starting script"
 sleep 2
@@ -27,7 +31,7 @@ sleep 3
 
 echo "Compiling..."
 sleep 2
-wget -qO /opt/dep.sh --timeout=15 https://raw.githubusercontent.com/OptimBro/OptimNGINX/master/compile.sh
+wget -qO /opt/compile.sh --timeout=15 https://raw.githubusercontent.com/OptimBro/OptimNGINX/master/compile.sh
 
 chmod +x /opt/compile.sh
 
@@ -39,7 +43,7 @@ sleep 3
 echo "Installing..."
 sleep 2
 
-wget -qO /opt/dep.sh --timeout=15 https://raw.githubusercontent.com/OptimBro/OptimNGINX/master/install.sh
+wget -qO /opt/install.sh --timeout=15 https://raw.githubusercontent.com/OptimBro/OptimNGINX/master/install.sh
 
 chmod +x /opt/install.sh
 
