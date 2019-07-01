@@ -61,7 +61,7 @@ echo "NGINX Installed"
         	if [[ ! -e /etc/nginx/modsec/modsecurity.conf ]]; then
 			echo "ModSecurity Configuration Starts"
             		cd /etc/nginx/modsec/ || exit 1
-			wget -P https://github.com/SpiderLabs/ModSecurity/raw/v3/master/unicode.mapping || exit 1
+			wget -P https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/unicode.mapping || exit 1
             		wget -O modsecurity.conf https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/modsecurity.conf-recommended || exit 1
             		sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/modsec/modsecurity.conf || exit 1
 			echo "Cleaning Directory"
