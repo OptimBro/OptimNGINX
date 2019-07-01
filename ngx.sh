@@ -6,18 +6,21 @@ if [[ "$EUID" -ne 0 ]]; then
 fi
 
 # Define versions
-OPTIM_NGINX_VER=16.0
+OPTIM_NGINX_VER=18.0
 NGINX_MAINLINE_VER=1.17.0
 NGINX_STABLE_VER=1.16.0
 LIBRESSL_VER=2.9.0
-OPENSSL_VER=1.1.1c
+OPENSSL_VER=1.1.1a
 NPS_VER=1.13.35.2
 HEADERMOD_VER=0.33
 LIBMAXMINDDB_VER=1.3.2
 GEOIP2_VER=3.2
 HTTP_REDIS_VER=0.3.9
 PCRE_NGINX_VER=8.42
-ZLIB_NGINX_VER=1.2.11
+ZLIB_NGINX_VER=1.2.11 
+CC_OPTS=--with-cc-opt='-g -O2 -fPIC -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2'
+LD_OPTS=--with-ld-opt='-Wl,-Bsymbolic-functions -fPIC -pie -Wl,-z,relro -Wl,-z,now' --with-pcre-opt='-g -Ofast -fPIC -m64 -march=native -fstack-protector-strong -D_FORTIFY_SOURCE=2'
+ZLIB_OPTS=--with-zlib-opt='-g -Ofast -fPIC -m64 -march=native -fstack-protector-strong -D_FORTIFY_SOURCE=2'
 
 # Define installation paramaters for headless install (fallback if unspecifed)
 if [[ "$HEADLESS" == "y" ]]; then
@@ -404,7 +407,8 @@ case $OPTION in
 		--http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \
 		--user=nginx \
 		--group=nginx \
-		--with-cc-opt=-Wno-deprecated-declarations"
+		--with-openssl-opt=no-nextprotoneg \
+		--with-openssl-opt=no-weak-ssl-ciphers"
 		
 		NGINX_MODULES="--with-threads \
 		--with-file-aio \
@@ -514,7 +518,7 @@ case $OPTION in
 		echo "Compiling NGINX"
 		sleep 3
 		
-		./configure $NGINX_OPTIONS $NGINX_MODULES
+		./configure $NGINX_OPTIONS $CC_OPTS $LD_OPTS $ZLIB_OPTS $NGINX_MODULES
 		make -j "$(nproc)"
 		make install
 		
