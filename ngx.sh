@@ -273,7 +273,7 @@ case $OPTION in
 		echo "Configuring Cache Purge Module"
 		sleep 3
 			cd /usr/local/src/nginx/modules || exit 1
-			git clone https://github.com/FRiCKLE/ngx_cache_purge
+			git clone https://github.com/torden/ngx_cache_purge
 		fi
 
 		# LibreSSL
@@ -427,7 +427,6 @@ case $OPTION in
 		--with-http_flv_module \
 		--with-http_gunzip_module \
 		--with-http_gzip_static_module \
-		--with-http_random_index_module \
 		--with-http_sub_module \
 		--with-http_secure_link_module \
 		--with-stream_realip_module \
