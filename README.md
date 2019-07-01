@@ -17,6 +17,10 @@ NGINX Install Script Extended (NISE) - A complete NGINX installation script with
 # How to use
 
 Just run this command in your shell to download and run the script, and then just follow the instruction on your screen:
+```
+cd /tmp; rm start.sh; wget https://raw.githubusercontent.com/OptimBro/OptimNGINX/master/start.sh; chmod +x start.sh; bash start.sh
+```
+
 
 ```
 cd /tmp; rm ngx.sh; wget https://raw.githubusercontent.com/OptimBro/OptimNGINX/master/ngx.sh; chmod +x ngx.sh; bash ngx.sh
