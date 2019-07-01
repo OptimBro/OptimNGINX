@@ -2,8 +2,7 @@
 
 # Define versions
 OPTIM_NGINX_VER=18.0
-NGINX_MAINLINE_VER=1.17.0
-NGINX_STABLE_VER=1.16.0
+NGINX_VER=1.17.0
 LIBRESSL_VER=2.9.0
 OPENSSL_VER=1.1.1a
 NPS_VER=1.13.35.2
@@ -12,7 +11,7 @@ LIBMAXMINDDB_VER=1.3.2
 GEOIP2_VER=3.2
 HTTP_REDIS_VER=0.3.9
 PCRE_NGINX_VER=8.42
-ZLIB_NGINX_VER=1.2.11 
+ZLIB_NGINX_VER=1.2.11
 
 		echo "Installing Dependencies..."
 		apt-get -o Acquire::ForceIPv4=true install -y build-essential ca-certificates wget curl libpcre3 libpcre3-dev autoconf unzip automake libtool tar git libssl-dev zlib1g-dev uuid-dev lsb-release libxml2-dev libxslt1-dev
