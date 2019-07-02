@@ -1,17 +1,4 @@
 #!/bin/bash
-# Define versions
-OPTIM_NGINX_VER=18.0
-NGINX_VER=1.17.0
-LIBRESSL_VER=2.9.0
-OPENSSL_VER=1.1.1a
-NPS_VER=1.13.35.2
-HEADERMOD_VER=0.33
-LIBMAXMINDDB_VER=1.3.2
-GEOIP2_VER=3.2
-HTTP_REDIS_VER=0.3.9
-PCRE_NGINX_VER=8.42
-ZLIB_NGINX_VER=1.2.11
-
 # Download and extract of Nginx source code
 		echo "Downloading NGINX..."
 		sleep 3
