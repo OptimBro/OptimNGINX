@@ -8,6 +8,7 @@
 
 		echo "Configuring PageSpeed"
 		sleep 3
+			rm -rf incubator-pagespeed-ngx-${NPS_VER}-stable
 			cd /usr/local/src/nginx/modules || exit 1
 			wget https://github.com/pagespeed/ngx_pagespeed/archive/v${NPS_VER}-stable.zip
 			unzip v${NPS_VER}-stable.zip
