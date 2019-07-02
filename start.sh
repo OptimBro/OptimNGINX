@@ -29,6 +29,8 @@ rm -rf /opt/optimengine/dep.sh
 rm -rf /opt/optimengine/compile.sh
 rm -rf /opt/optimengine/install.sh
 
+mkdir -p /opt/optimengine/
+
 wget -qO /opt/optimengine/dep.sh --timeout=15 https://raw.githubusercontent.com/OptimBro/OptimNGINX/master/dep.sh
 chmod +x /opt/optimengine/dep.sh
 
