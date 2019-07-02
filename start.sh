@@ -1,4 +1,5 @@
 #!/bin/bash
+T1="$(date +%s)"
 
 # Define versions
 OPTIM_NGINX_VER="18.0"
@@ -49,3 +50,5 @@ cd /opt/optimengine/
 
 
 echo "Nginx is ready"
+
+echo|awk -v D=$diffsec '{printf "Script took %02d:%02d:%02d to compile on your server\n",D/(60*60),D%(60*60)/60,D%60}'
