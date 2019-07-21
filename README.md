@@ -1,6 +1,6 @@
 # OptimNGINX
 
-NGINX Install Script Extended (NISE) - A complete NGINX installation script with extra module support and configuration.
+OptimNGINX - A complete NGINX installation script with extra module support and configuration.
 
 # Optional modules/features
 
