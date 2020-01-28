@@ -19,9 +19,7 @@ Follow details here: https://github.com/OptimBro/OptimStack
 
 # Installing WordPress (Optional)
 
-You need to setup WP CLI first
-```
-cd /web; rm wp.sh; wget https://raw.githubusercontent.com/OptimBro/OptimNGINX/master/wp.sh; chmod +x wp.sh; bash wp.sh
-```
+Check new details here: https://github.com/OptimBro/OptimStack
+
 
 Credits: Forked from https://github.com/angristan/nginx-autoinstall (Thanks for the script)
