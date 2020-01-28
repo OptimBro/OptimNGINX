@@ -1,7 +1,6 @@
 # OptimNGINX
 
-OptimNGINX - A complete NGINX installation script with extra module support and configuration.
-
+This repo is moved here: https://github.com/OptimBro/OptimStack
 # Optional modules/features
 
 - ModSecurity v3
@@ -16,11 +15,7 @@ OptimNGINX - A complete NGINX installation script with extra module support and 
 
 # How to use
 
-Just run this command in your shell to download and run the script, and then just follow the instruction on your screen:
-
-```
-cd /tmp; rm ngx.sh; wget https://raw.githubusercontent.com/OptimBro/OptimNGINX/master/ngx.sh; chmod +x ngx.sh; bash ngx.sh
-```
+Follow details here: https://github.com/OptimBro/OptimStack
 
 # Installing WordPress (Optional)
 
